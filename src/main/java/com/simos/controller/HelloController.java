@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by l2h on 18-4-9.
- * Desc:
+ * Desc: hello world
+ * @author l2h
  */
 @RestController
 public class HelloController {

@@ -4,8 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Created by simos on 18-4-9.
+ * Created by l2h on 18-4-9.
  * Desc: 应用入口　main
+ * @author l2h
  */
 @SpringBootApplication
 public class QuickStartApplication {
