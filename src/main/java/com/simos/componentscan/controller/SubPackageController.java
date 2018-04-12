@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class SubPackageController {
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/sub",method = RequestMethod.GET)
     public String test(){
-        return "test!";
+        return "sub!";
     }
 }
