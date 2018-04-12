@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author l2h
  */
 @RestController
-public class TestController {
+public class SubPackageController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test(){
         return "test!";
