@@ -1,0 +1,30 @@
+server:
+  port: 8888
+simos:
+  name: l2h
+  age: 28
+  bodyWeight: 60.6
+  sex: male
+  girlFriend:
+    name: xiaoxiao
+    age: 28
+    beautiful: true
+    sex: female
+    bodyWeight: 45
+  friends:
+    - name: tank
+      age: 28
+      sex: male
+      bodyWeight: 55.5
+    - name: haoge
+      age: 27
+      sex: male
+      bodyWeight: 55.5
+    - name: yaoyu
+      age: 27
+      sex: male
+      bodyWeight: 55.5
+  sports:
+    - football
+    - basketball
+    - run
