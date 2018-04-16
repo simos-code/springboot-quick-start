@@ -13,7 +13,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class QuickStartApplication {
     public static void  main(String[]args){
-        new SpringApplicationBuilder().sources(QuickStartApplication.class)
-                .listeners(new SimosApplicationListener()).run(args);
+      SpringApplication.run(QuickStartApplication.class,args);
     }
 }
