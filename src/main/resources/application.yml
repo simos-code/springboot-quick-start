@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #JDBC配置
+      url: jdbc:mysql://192.168.92.66:3306/qtec_route
+      username: qtec_route_dev
+      #官方有提供密码加密的方法
+      password: qtec_route_dev
+      driver-class-name: com.mysql.jdbc.Driver
+      #连接池配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 500
+      maxWait: 5000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
+      name: test
+      #web监控配置
+      web-stat-filter:
+        enabled: true
+        url-pattern: '/*'
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      # StatViewServlet配置
+      stat-view-servlet:
+        login-password: test
+        login-username: test
+        #允许访问的ip
+        allow: 127.0.0.1,192.168.90.12,192.168.90.58
+        #是否可以清空已有监控数据
+        reset-enable: true
+      #spring 关联监控配置
+      aop-patterns: 'com.simos.controller.*.*'
+      proxyTargetClass: true
+      #sql监控
+      filter:
+        stat:
+          enabled: true
+          merge-sql: true
+          slow-sql-millis: 1000
+          log-slow-sql: true
+        config:
+          enabled: true
