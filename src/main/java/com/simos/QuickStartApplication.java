@@ -1,7 +1,9 @@
 package com.simos;
 
+import com.simos.listener.SimosApplicationListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * Created by l2h on 18-4-9.
@@ -11,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class QuickStartApplication {
     public static void  main(String[]args){
-        SpringApplication.run(QuickStartApplication.class,args);
+        new SpringApplicationBuilder().sources(QuickStartApplication.class)
+                .listeners(new SimosApplicationListener()).run(args);
     }
 }
