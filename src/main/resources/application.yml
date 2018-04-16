@@ -1,0 +1,7 @@
+server:
+  port: 443
+  ssl:
+    #　ca证书密码
+  　key-password: 2222
+    #　ca证书文件
+    key-store: classpath:cert/demo.jks
