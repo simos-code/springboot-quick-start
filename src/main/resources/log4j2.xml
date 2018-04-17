@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration >
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n</property>
+    </properties>
+
+    <!--     先定义所有的appender -->
+    <!--appender定义日志的输出位置，格式（即patternLayout），日志等级等-->
+    <!--loggers定义哪些类使用哪些appender，并可以设置日志级别-->
+    <CustomLevels>
+        <!--业务１-->
+        <CustomLevel name="BU_ONE_INFO" intLevel="490" />
+        <!--业务２-->　　
+        <CustomLevel name="BU_TWO_INFO" intLevel="480"/>
+    </CustomLevels>
+    <appenders>
+        <!--这个输出控制台的配置:控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+        <Console name="Console" target="system_out">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+        </Console>
+         <!--告警信息打印-->
+        <RollingFile name="RollingFileWarnLog" fileName="log/warn.log"
+                     filePattern="log/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <!--过滤掉其他level-->
+            <Filters>
+                <ThresholdFilter  level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="8" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+        <!--普通信息打印-->
+        <RollingFile name="RollingFileInfoLog" fileName="log/info.log"
+                     filePattern="log/$${date:yyyy-MM}/info-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter  level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="8" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+　　　　　<!--错误信息打印-->
+        <RollingFile name="RollingFileErrorLog" fileName="log/error.log"
+                     filePattern="log/$${date:yyyy-MM}/error-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <ThresholdFilter  level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="8" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileBuOneLog" fileName="log/buoneinfo.log"
+                     filePattern="log/$${date:yyyy-MM}/buoneinfo-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter  level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="BU_TWO_INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="BU_ONE_INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="8" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileBuTwoLog" fileName="log/butwoinfo.log"
+                     filePattern="log/$${date:yyyy-MM}/butwoinfo-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter  level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="BU_TWO_INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="8" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+
+    </appenders>
+
+    <!--     然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <loggers>
+
+        <root level="debug">
+            <!--<appender-ref ref="connectionFactoryForLog" />-->
+            <appender-ref ref="RollingFileInfoLog" />
+            <appender-ref ref="RollingFileWarnLog"  />
+            <appender-ref ref="RollingFileErrorLog" />
+            <appender-ref ref="RollingFileBuTwoLog" />
+            <appender-ref ref="RollingFileBuOneLog"  />
+            <!--<appender-ref ref="RollingFileTcpPackageLog" />-->
+            <appender-ref ref="Console" />
+        </root>
+    </loggers>
+
+</configuration>
