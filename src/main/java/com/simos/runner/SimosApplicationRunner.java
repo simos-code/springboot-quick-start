@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @author l2h
  */
 @Component
+//如果有多个runner需要指定一些顺序
 @Order(1)
 public class SimosApplicationRunner implements ApplicationRunner {
     @Autowired
