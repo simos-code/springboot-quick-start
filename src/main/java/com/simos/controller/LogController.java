@@ -17,6 +17,10 @@ public class LogController {
     private final Logger logger =  LogManager.getLogger(LogController.class);
     private final Level BU_TWO_INFO = Level.forName("BU_TWO_INFO",480);
     private final Level BU_ONE_INFO = Level.forName("BU_ONE_INFO",490);
+    private HelloController helloController;
+    public LogController (HelloController helloController){
+        this.helloController = helloController;
+    }
     @GetMapping("/log")
     public String log(@RequestParam("msg")String msg){
         logger.log(BU_ONE_INFO,msg);
@@ -25,5 +29,8 @@ public class LogController {
         logger.error(msg);
         logger.warn(msg);
         return "success";
+    }
+    public void setHelloController(HelloController helloController){
+        this.helloController = helloController;
     }
 }

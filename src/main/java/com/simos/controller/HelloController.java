@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HelloController {
+    private LogController logController;
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public String hello(){
         return "hello world!";
     }
+    public HelloController(LogController logController){
+        this.logController = logController;
+    }
+    public void setLogController(LogController logController){
+        this.logController = logController;
+    }
+
 }
