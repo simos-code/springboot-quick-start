@@ -17,13 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author l2h
  */
 @Service
-public class LookupPushMsgPool implements ApplicationContextAware{
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+public class LookupPushMsgPool{
 
     /**
      * 线程池
