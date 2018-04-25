@@ -61,8 +61,7 @@ public class AwarePushMsgPool implements ApplicationContextAware{
         if (msg!=null){
             try {
                 //所需要的原型bean不是通过依赖注入的，而是直接bean容器拿到的，违反了IoC原则
-                PushMsgTask task = applicationContext.getBean("task",PushMsgTask.class);
-                task.setMsg(msg);
+                PushMsgTask task = pushMsgTask(msg);
                 System.out.println("aware class:"+this.getClass());
                 executorService.submit(task);
             }
@@ -74,4 +73,9 @@ public class AwarePushMsgPool implements ApplicationContextAware{
         }
     }
 
+    protected PushMsgTask pushMsgTask(String msg){
+        PushMsgTask task = applicationContext.getBean("task",PushMsgTask.class);
+        task.setMsg(msg);
+        return task;
+    }
 }
