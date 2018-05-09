@@ -1,8 +1,12 @@
 package com.simos.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by l2h on 18-4-9.
@@ -11,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HelloController {
+    @Autowired
+    DateFormat dateFormat;
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public String hello(){
+        System.out.println(dateFormat.format(new Date()));
         return "hello world!";
     }
 }
