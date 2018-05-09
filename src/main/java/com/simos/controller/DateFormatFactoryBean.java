@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 /**
  * Created by l2h on 18-5-9.
- * Desc:
+ * Desc: 日期格式化bean的ＦactoryBean
  * @author l2h
  */
 
