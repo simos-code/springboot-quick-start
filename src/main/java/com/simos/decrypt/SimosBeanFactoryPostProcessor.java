@@ -43,6 +43,9 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
             // Check that we're not parsing our own bean definition,
             // to avoid failing on unresolvable placeholders in properties file locations.
             if (!(curName.equals(this.beanName) && beanFactory.equals(this.beanFactory))) {
+                /**
+                 * 获取所有配置属性
+                 */
                 MutablePropertySources propertyValues =  environment.getPropertySources();
                 decryptProperty(propertyValues,valueResolver);
             }
@@ -63,11 +66,19 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
     public int getOrder() {
         return LOWEST_PRECEDENCE;
     }
+
+    /**
+     * 解密方法．遍历每个PropertySources，遍历PropertySources的每个键值如果包含加密信息就解密，最后替换．
+     * @param propertyValues
+     * @param valueResolver
+     */
     private void decryptProperty(MutablePropertySources propertyValues,StringValueResolver valueResolver) {
         propertyValues.forEach(pv->{
             PropertySource propertySource = propertyValues.get(pv.getName());
             if (propertySource instanceof MapPropertySource){
+                //保存处理过后的值
                 Map<String,Object> convertPropertySource = new HashMap<>();
+                //重新定义一个PropertySource，覆盖原来的
                 MapPropertySource newMapPropertySource = new MapPropertySource(pv.getName(),convertPropertySource);
                 String[] propertyNames = ((MapPropertySource) propertySource).getPropertyNames();
                 for (int i=0,length = propertyNames.length;i<length;i++){
@@ -79,6 +90,7 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
                        convertPropertySource.put(propertyNames[i],value);
                    }
                 }
+                //处理过后值替换原来的PropertySource
                 propertyValues.replace(pv.getName(),newMapPropertySource);
             }
 
