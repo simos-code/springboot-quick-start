@@ -3,7 +3,6 @@ package com.simos.decrypt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.util.StringValueResolver;
 
 /**
  * Created by l2h on 18-5-8.
@@ -26,7 +25,7 @@ public class EnableDecryptPropertyConfiguration {
     }
     @Bean
     public SimosBeanFactoryPostProcessor simosBeanFactoryPostProcessor(ConfigurableEnvironment environment,
-                                                                       StringValueResolver stringValueResolver){
+                                                                       SimosStringValueResolver stringValueResolver){
         return new SimosBeanFactoryPostProcessor(environment,stringValueResolver);
     }
 }
