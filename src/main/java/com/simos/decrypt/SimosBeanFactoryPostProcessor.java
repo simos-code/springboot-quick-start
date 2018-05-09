@@ -1,13 +1,9 @@
 package com.simos.decrypt;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanDefinitionVisitor;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.Ordered;
@@ -27,8 +23,14 @@ import java.util.Map;
  */
 public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,BeanNameAware,BeanFactoryAware,Ordered {
     private String beanName;
+    /**
+     * 应用环境，用于获取配置属性
+     */
     private ConfigurableEnvironment environment;
     private BeanFactory beanFactory;
+    /**
+     * 完成解密的接口
+     */
     private StringValueResolver valueResolver;
     public SimosBeanFactoryPostProcessor(ConfigurableEnvironment environment ,StringValueResolver stringValueResolver){
         this.environment = environment;
@@ -36,21 +38,13 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
     }
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactoryToProcess) throws BeansException {
-        BeanDefinitionVisitor visitor = new BeanDefinitionVisitor(valueResolver);
         String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
         for (String curName : beanNames) {
             // Check that we're not parsing our own bean definition,
             // to avoid failing on unresolvable placeholders in properties file locations.
             if (!(curName.equals(this.beanName) && beanFactory.equals(this.beanFactory))) {
-                BeanDefinition bd = beanFactoryToProcess.getBeanDefinition(curName);
                 MutablePropertySources propertyValues =  environment.getPropertySources();
                 decryptProperty(propertyValues,valueResolver);
-                try {
-                    visitor.visitBeanDefinition(bd);
-                }
-                catch (Exception ex) {
-                    throw new BeanDefinitionStoreException(bd.getResourceDescription(), curName, ex.getMessage(), ex);
-                }
             }
         }
     }
