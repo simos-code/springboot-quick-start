@@ -23,12 +23,16 @@ public class EncryptPropertyChecker {
         this.prefix = prefix;
         this.suffix =suffix;
     }
-    public boolean isEcryptInfo(String value){
 
+    /**
+     * 判断是否为加密内容
+     * @param value　配置文件加密内容
+     * @return 加密内容返回true,否则返回false
+     */
+    public boolean isEncryptInfo(String value){
         if (StringUtils.isEmpty(value)){
             return false;
         }
-
         return value.trim().startsWith(prefix)&&value.trim().endsWith(suffix);
     }
     public String getPrefix() {
@@ -48,6 +52,12 @@ public class EncryptPropertyChecker {
     }
 
     public EncryptPropertyChecker(){}
+
+    /**
+     * 删除标识为加密内容的前后缀，返回加密信息
+     * @param source　文件加密value
+     * @return 删除标识为加密内容的前后缀，返回加密信息
+     */
     public String removePrefixSuffix(String source){
         return source.substring(prefix.length(),(source.length()-suffix.length()));
     }

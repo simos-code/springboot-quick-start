@@ -18,8 +18,7 @@ public class SimosStringValueResolver implements StringValueResolver {
     @Override
     public String resolveStringValue(String source)  {
         try {
-            if (checker.isEcryptInfo(source)){
-                System.out.println(checker.removePrefixSuffix(source));
+            if (checker.isEncryptInfo(source)){
                 return decryptProperty.decrypt(checker.removePrefixSuffix(source));
             }
             return source;
