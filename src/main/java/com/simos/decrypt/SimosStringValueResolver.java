@@ -7,7 +7,7 @@ import org.springframework.util.StringValueResolver;
  * Desc:自定义解密实现
  * @author l2h
  */
-public class SimosStringValueResolver implements StringValueResolver {
+public class SimosStringValueResolver  {
 
     private DecryptProperty decryptProperty;
     private EncryptPropertyChecker checker;
@@ -15,7 +15,6 @@ public class SimosStringValueResolver implements StringValueResolver {
         this.decryptProperty = decryptProperty;
         this.checker = checker;
     }
-    @Override
     public String resolveStringValue(String source)  {
         try {
             if (checker.isEncryptInfo(source)){

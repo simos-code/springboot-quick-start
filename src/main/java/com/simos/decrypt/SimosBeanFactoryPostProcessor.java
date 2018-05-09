@@ -31,8 +31,8 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
     /**
      * 完成解密的接口
      */
-    private StringValueResolver valueResolver;
-    public SimosBeanFactoryPostProcessor(ConfigurableEnvironment environment ,StringValueResolver stringValueResolver){
+    private SimosStringValueResolver valueResolver;
+    public SimosBeanFactoryPostProcessor(ConfigurableEnvironment environment ,SimosStringValueResolver stringValueResolver){
         this.environment = environment;
         this.valueResolver = stringValueResolver;
     }
@@ -72,7 +72,7 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
      * @param propertyValues
      * @param valueResolver
      */
-    private void decryptProperty(MutablePropertySources propertyValues,StringValueResolver valueResolver) {
+    private void decryptProperty(MutablePropertySources propertyValues,SimosStringValueResolver valueResolver) {
         propertyValues.forEach(pv->{
             PropertySource propertySource = propertyValues.get(pv.getName());
             if (propertySource instanceof MapPropertySource){
