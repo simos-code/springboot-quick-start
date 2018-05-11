@@ -4,7 +4,8 @@ import com.simos.util.AESUtil;
 
 /**
  * Created by l2h on 18-5-8.
- * Desc:
+ * Desc: AES解密
+ * @author l2h
  */
 public class AESDecryptProperty implements  DecryptProperty {
     @Override

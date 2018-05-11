@@ -11,7 +11,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
-import org.springframework.util.StringValueResolver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +20,8 @@ import java.util.Map;
  * Desc:BeanFactoryPostProcessor完成配置文件中属性解密
  * @author l2h
  */
-public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,BeanNameAware,BeanFactoryAware,Ordered {
-    private String beanName;
+public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,BeanFactoryAware,Ordered {
+
     /**
      * 应用环境，用于获取配置属性
      */
@@ -31,35 +30,23 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
     /**
      * 完成解密的接口
      */
-    private SimosStringValueResolver valueResolver;
-    public SimosBeanFactoryPostProcessor(ConfigurableEnvironment environment ,SimosStringValueResolver stringValueResolver){
+    private EncryptStringValueResolver valueResolver;
+    public SimosBeanFactoryPostProcessor(ConfigurableEnvironment environment ){
         this.environment = environment;
-        this.valueResolver = stringValueResolver;
     }
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactoryToProcess) throws BeansException {
-        String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
-        for (String curName : beanNames) {
-            // Check that we're not parsing our own bean definition,
-            // to avoid failing on unresolvable placeholders in properties file locations.
-            if (!(curName.equals(this.beanName) && beanFactory.equals(this.beanFactory))) {
                 /**
                  * 获取所有配置属性
                  */
+                valueResolver = (EncryptStringValueResolver)beanFactory.getBean("encryptStringValueResolver");
                 MutablePropertySources propertyValues =  environment.getPropertySources();
                 decryptProperty(propertyValues,valueResolver);
-            }
-        }
     }
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
-    }
-
-    @Override
-    public void setBeanName(String name) {
-        this.beanName = name;
     }
 
     @Override
@@ -72,7 +59,7 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
      * @param propertyValues
      * @param valueResolver
      */
-    private void decryptProperty(MutablePropertySources propertyValues,SimosStringValueResolver valueResolver) {
+    private void decryptProperty(MutablePropertySources propertyValues,EncryptStringValueResolver valueResolver) {
         propertyValues.forEach(pv->{
             PropertySource propertySource = propertyValues.get(pv.getName());
             if (propertySource instanceof MapPropertySource){
@@ -84,7 +71,7 @@ public class SimosBeanFactoryPostProcessor implements BeanFactoryPostProcessor,B
                 for (int i=0,length = propertyNames.length;i<length;i++){
                    Object value = propertySource.getProperty(propertyNames[i]);
                    if (value instanceof String){
-                       convertPropertySource.put(propertyNames[i], valueResolver.resolveStringValue((String) value));
+                       convertPropertySource.put(propertyNames[i], valueResolver.resolveEncryptStringValue((String) value));
                    }
                    else {
                        convertPropertySource.put(propertyNames[i],value);

@@ -5,7 +5,7 @@ package com.simos.decrypt;
  * Desc:自定义解密实现
  * @author l2h
  */
-public class SimosStringValueResolver  {
+public class SimosStringValueResolver implements EncryptStringValueResolver  {
 
     private DecryptProperty decryptProperty;
     private EncryptPropertyChecker checker;
@@ -13,7 +13,8 @@ public class SimosStringValueResolver  {
         this.decryptProperty = decryptProperty;
         this.checker = checker;
     }
-    public String resolveStringValue(String source)  {
+    @Override
+    public String resolveEncryptStringValue(String source)  {
         try {
             if (checker.isEncryptInfo(source)){
                 return decryptProperty.decrypt(checker.removePrefixSuffix(source));

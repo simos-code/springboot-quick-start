@@ -20,13 +20,12 @@ public class EnableDecryptPropertyConfiguration {
         return new EncryptPropertyChecker("?#(",")?#");
     }
     @Bean
-    public SimosStringValueResolver simosStringValueResolver(){
+    public EncryptStringValueResolver encryptStringValueResolver(){
         return new SimosStringValueResolver(decryptProperty(),encryptPropertyChecker());
     }
     @Bean
-    public SimosBeanFactoryPostProcessor simosBeanFactoryPostProcessor(ConfigurableEnvironment environment,
-                                                                       SimosStringValueResolver stringValueResolver){
-        return new SimosBeanFactoryPostProcessor(environment,stringValueResolver);
+    public SimosBeanFactoryPostProcessor simosBeanFactoryPostProcessor(ConfigurableEnvironment environment){
+        return new SimosBeanFactoryPostProcessor(environment);
     }
 }
 
