@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.text.DateFormat;
-
 /**
  * Created by l2h on 18-4-9.
  * Desc: 应用入口　main
@@ -20,5 +18,13 @@ public class QuickStartApplication {
     @Bean
     public DateFormatFactoryBean dateFormat(){
         return new DateFormatFactoryBean();
+    }
+    @Bean
+    public DemoService firstDemo(){
+        return new DemoService();
+    }
+    @Bean
+    public DemoService secondDemo(){
+        return new DemoService();
     }
 }

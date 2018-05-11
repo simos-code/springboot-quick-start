@@ -2,6 +2,7 @@ package com.simos.controller;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.Ordered;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ import java.util.TimeZone;
  * @author l2h
  */
 
-public class DateFormatFactoryBean implements FactoryBean<DateFormat>,InitializingBean{
+public class DateFormatFactoryBean implements FactoryBean<DateFormat>,InitializingBean,Ordered{
     private DateFormat dateFormat;
 
     @Override
@@ -36,5 +37,10 @@ public class DateFormatFactoryBean implements FactoryBean<DateFormat>,Initializi
     @Override
     public boolean isSingleton() {
         return true;
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }
